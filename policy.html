@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+
+<html lang="en-US"  ng-app = "mainApp" ng-controller="policyCtrl" >
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/bootstrap-select.min.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<script src="assets/js/common.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-sanitize.min.js"></script>
+	<script src="assets/js/fileinput.js"></script>
+	<script src="assets/js/controller.js"></script>
+
+    <title>Onroa - Bảo mật</title>
+
+</head>
+
+<body onunload="" class="page-subpage page-contact navigation-off-canvas" id="page-top">
+
+<!-- Outer Wrapper-->
+<div id="outer-wrapper">
+    <!-- Inner Wrapper -->
+    <div id="inner-wrapper">
+        <!-- Navigation-->
+        <div class="header">
+            <div class="wrapper">
+                <div class="brand">
+                    <span onclick="backToIndex()">
+						<img src="assets/img/logo.png" alt="logo">
+					</span>
+                </div>
+                <nav class="navigation-items">
+                    <div class="wrapper">
+                        <ul class="main-navigation navigation-top-header in-login"></ul>
+                        <ul class="user-area"  ng-if="uid == ''">
+							<li><a target="_blank" href="#" onclick="window.open('https://play.google.com/store/apps/details?id=onroa.mobile.onroaapp', '_blank').focus();">
+											<img src="assets/img/android-version.png" style="width: 100px">
+							</a></li>
+                            <li><a href="signin.html">Đăng nhập</a></li>
+                            <li><a href="register.html"><strong>Đăng ký</strong></a></li>
+							<li><a href="#" onclick="fblogin('policy')">
+											<img src="assets/img/fblogin.jpg" style="width: 50px">
+							</a></li>
+                        </ul>
+						<ul class="user-area"  ng-if="uid != ''">
+                            <li><a href="#" onclick="logout(); return false; ">Đăng xuất</a></li>
+                        </ul>
+                        
+                        <div class="toggle-navigation">
+                            <div class="icon">
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- end Navigation-->
+        <!-- Page Canvas-->
+        <div id="page-canvas">
+            <!--Off Canvas Navigation-->
+            <nav class="off-canvas-navigation">
+                <header>Menu</header>
+                <div class="main-navigation navigation-off-canvas"></div>
+            </nav>
+            <!--end Off Canvas Navigation-->
+
+            <!--Sub Header-->
+            <section class="sub-header">
+                <div class="search-bar horizontal collapse" id="redefine-search-form"></div>
+                <!-- /.search-bar -->
+                <div class="breadcrumb-wrapper">
+                    <div class="container">
+                        <div class="redefine-search">
+                            <a href="#redefine-search-form" class="inner" data-toggle="collapse" aria-expanded="false" aria-controls="redefine-search-form">
+                                <span class="icon"></span>
+                                <span>Search</span>
+                            </a>
+                        </div>
+                        <ol class="breadcrumb">
+                            <li><a href="index.html"><i class="fa fa-home"></i></a></li>
+                            <li class="active">Detail</li>
+                        </ol>
+                        <!-- /.breadcrumb-->
+                    </div>
+                    <!-- /.container-->
+                </div>
+                <!-- /.breadcrumb-wrapper-->
+            </section>
+            <!--end Sub Header-->
+
+            <!--Page Content-->
+            <div id="page-content">
+                <section id="map-simple" class="map-contact"></section>
+                <section class="container">
+                    <div class="row">
+                        <!--Content-->
+                        <div class="col-md-9">
+                            <header>
+                                <h1 class="page-title">Bảo mật</h1>
+                            </header>
+                            <hr>
+                            <section>
+                                Onroa hiểu rằng Quý Khách Hàng rất quan tâm đến việc những thông tin cá nhân mà bạn đã tin cậy cung cấp cho chúng tôi được bảo mật và sử dụng ra sao. Onroa rất trân trọng sự tin tưởng đó và cam kết rằng những thông tin này sẽ được chúng tôi nỗ lực tối đa để bảo mật. Onroa đảm bảo sẽ sử dụng thông tin khách hàng một cách hợp lý, có cân nhắc để không ngừng cải thiện chất lượng dịch vụ và đem lại cho Quý Khách Hàng những trải nghiệm thú vị khi mua sắm tại trang web chúng tôi.<BR><BR>
+ 
+								<B>1. Thu thập thông tin khách hàng</B><BR>
+								 Để sử dụng được các dịch vụ của Onroa, Quý Khách Hàng phải đăng ký tài khoản và cung cấp một số thông tin như: email, họ tên, và một số thông tin khác. Phần thủ tục đăng k‎ý này nhằm giúp chúng tôi xác định phần thanh toán và giao hàng chính xác cho người nhận. Bạn có thể chọn không cung cấp cho chúng tôi một số thông tin nhất định nhưng khi đó bạn sẽ không thể hưởng được một số tiện ích mà những tính năng của chúng tôi cung cấp.<BR>
+								Chúng tôi cũng lưu trữ bất kỳ thông tin nào bạn nhập trên website hoặc gửi đến Onroa. Những thông tin đó sẽ được sử dụng cho mục đích phản hồi yêu cầu của khách hàng, đưa ra những gợi ý‎ phù hợp cho từng khách hàng khi mua sắm tại Onroa, nâng cao chất lượng hàng hóa dịch vụ và liên lạc với bạn khi cần.<BR><BR>
+								 
+								<B>2. Sử dụng thông tin</B><BR>
+								 Mục đích của việc thu thập thông tin là nhằm xây dựng Onroa trở thành một website mang lại nhiều tiện ích nhất cho khách hàng. Vì thế, việc sử dụng thông tin sẽ phục vụ những hoạt động sau:<BR>
+								Gửi newsletter giới thiệu sản phẩm mới và những chương trình khuyến mãi của Onroa<BR>
+								Cung cấp một số tiện ích, dịch vụ hỗ trợ khách hàng<BR>
+								Nâng cao chất lượng dịch vụ khách hàng của Onroa<BR>
+								Giải quyết các vấn đề, tranh chấp phát sinh liên quan đến việc sử dụng website<BR>
+								Ngăn chặn những hoạt động vi phạm pháp luật Việt Nam<BR><BR>
+
+								<B>3. Chia sẻ thông tin </B><BR>
+								Onroa biết rằng thông tin về khách hàng là một phần rất quan trọng trong việc kinh doanh và chúng sẽ không được bán, trao đổi cho một bên thứ ba nào khác. Chúng tôi sẽ không chia sẻ thông tin khách hàng trừ những trường hợp cụ thể sau đây:<BR>
+								Để bảo vệ Onroa và các bên thứ ba khác: Chúng tôi chỉ đưa ra thông tin tài khoản và những thông tin cá nhân khác khi tin chắc rằng việc đưa những thông tin đó là phù hợp với luật pháp, bảo vệ quyền lợi, tài sản của người sử dụng dịch vụ, của Onroa và các bên thứ ba khác.
+								Theo yêu cầu pháp l‎ý từ một cơ quan chính phủ hoặc khi chúng tôi tin rằng việc làm đó là cần thiết và phù hợp nhằm tuân theo các yêu cầu pháp l‎ý
+								Trong những trường hợp còn lại, chúng tôi sẽ có thông báo cụ thể cho Quý Khách Hàng khi phải tiết lộ thông tin cho một bên thứ ba và thông tin này chỉ được cung cấp khi được sự phản hồi đồng ‎ý‎ từ phía Quý Khách Hàng. VD: các chương trình khuyến mãi có sự hợp tác, tài trợ với các đối tác của Onroa; cung cấp các thông tin giao nhận cần thiết cho các đơn vị vận chuyển<BR>
+								Nó chắc chắn không bao gồm việc bán, chia sẻ dẫn đến việc làm lộ thông tin cá nhân của khách hàng vì mục đích thương mại vi phạm những cam kết được đặt ra trong quy định Chính sách bảo mật thông tin khách hàng của Onroa<BR><BR>
+								 
+								<B>4. Bảo mật thông tin khách hàng</B><BR>
+								 Một điều quan trọng đối với khách hàng là việc tự bảo vệ bạn trước sự tiếp cận thông tin về password khi bạn dùng chung máy tính với nhiều người. Khi đó, bạn phải chắc chắn đã thoát khỏi tài khoản sau khi sử dụng dịch vụ của chúng tôi.<BR>
+								Chúng tôi cũng cam kết không cố ‎‎ý tiết lộ thông tin khách hàng, không bán hoặc chia sẻ thông tin khách hàng của Onroa vì mục đích thương mại vi phạm những cam kết giữa chúng tôi với Qu‎ý khách hàng chiếu theo Chính sách bảo mật thông tin khách hàng của Onroa<BR>
+								Onroa nhấn mạnh rằng chúng tôi rất quan tâm đến quyền lợi của Quý ‎khách hàng trong việc bảo vệ thông tin cá nhân nên trong trường hợp bạn có góp ‎ý, thắc mắc liên quan đến chính sách bảo mật của chúng tôi, vui lòng liên hệ: support@onroa.com
+
+                                
+                            </section>
+                        </div>
+                        <!--Sidebar-->
+                        <div class="col-md-3">
+                            <aside id="sidebar">
+                                <section>
+                                    <header><h2>Gần đây có</h2></header>
+									<div ng-repeat="nearPoint in nearPoints">
+										<a href="detail.html?{{nearPoint.url}}" class="item-horizontal small">
+											<h3>{{nearPoint.title}}</h3>
+											<figure>{{nearPoint.address}}</figure>
+											<div class="wrapper">
+												<div class="image"><img src="{{nearPoint.gallery[0]}}" alt=""></div>
+												<div class="info">
+													<div class="type">
+														<i><img src="{{nearPoint.type_icon}}" alt=""></i>
+														<span>{{nearPoint.category_name.vi[0]}}</span>
+													</div>
+												</div>
+											</div>
+										</a>
+										<!--/.item-horizontal small-->
+									</div>
+                                </section>
+                            </aside>
+                            <!-- /#sidebar-->
+                        </div>
+                        <!-- /.col-md-3-->
+                        <!--end Sidebar-->
+                    </div>
+                </section>
+            </div>
+            <!-- end Page Content-->
+        </div>
+        <!-- end Page Canvas-->
+        <!--Page Footer-->
+        <div ng-include="'inc_footer.html'"></div>
+        <!--end Page Footer-->
+    </div>
+    <!-- end Inner Wrapper -->
+</div>
+<!-- end Outer Wrapper-->
+<script type="text/javascript" src="assets/js/before.load.js"></script>
+<script type="text/javascript" src="//maps.google.com/maps/api/js?key=AIzaSyC6hGTAkD_Snhx1Aj0kATrn_Pd4t5QibhI&sensor=false"></script>
+<script type="text/javascript" src="assets/js/richmarker-compiled.js"></script>
+<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/smoothscroll.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.hotkeys.js"></script>
+<script type="text/javascript" src="assets/js/custom.js"></script>
+<script type="text/javascript" src="assets/js/maps.js"></script>
+
+<script>
+    $(window).load(function(){
+        //Nhà thờ Đức Bà
+		var _latitude = 10.7797838;
+		var _longitude = 106.6968061;
+        var draggableMarker = false;
+        simpleMap(_latitude, _longitude,draggableMarker);
+    });
+</script>
+
+<!--[if lte IE 9]>
+<script type="text/javascript" src="assets/js/ie-scripts.js"></script>
+<![endif]-->
+</body>
+</html>

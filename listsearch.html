@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="en-US"  ng-app = "mainApp" ng-controller="listsearchCtrl" >
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/bootstrap-select.min.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
+	<link rel="stylesheet" href="assets/plugin/sweetalert2/sweetalert2.min.css" type="text/css">
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<script src="assets/js/common.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-sanitize.min.js"></script>
+	<script src="assets/plugin/sweetalert2/sweetalert2.min.js"></script>
+	<script src="assets/js/fileinput.js"></script>
+	<script src="assets/js/controller.js"></script>
+
+    <title>Onroa - Góp ý & Liên lạc</title>
+
+</head>
+
+<body onunload="" class="page-subpage page-contact navigation-off-canvas" id="page-top">
+
+<!-- Outer Wrapper-->
+<div id="outer-wrapper">
+    <!-- Inner Wrapper -->
+    <div id="inner-wrapper">
+        <!-- Navigation-->
+        <div class="header">
+            <div class="wrapper">
+                <div class="brand">
+                    <span onclick="backToIndex()">
+						<img src="assets/img/logo.png" alt="logo">
+					</span>
+                </div>
+                <nav class="navigation-items">
+                    <div class="wrapper">
+                        <ul class="main-navigation navigation-top-header in-login"></ul>
+                        <ul class="user-area"  ng-if="uid == ''">
+							<li><a target="_blank" href="#" onclick="window.open('https://play.google.com/store/apps/details?id=onroa.mobile.onroaapp', '_blank').focus();">
+											<img src="assets/img/android-version.png" style="width: 100px">
+							</a></li>
+                            <li><a href="signin.html">Đăng nhập</a></li>
+                            <li><a href="register.html"><strong>Đăng ký</strong></a></li>
+							<li><a href="#" onclick="fblogin('listsearch')">
+											<img src="assets/img/fblogin.jpg" style="width: 50px">
+							</a></li>
+						</ul>
+						<ul class="user-area"  ng-if="uid != ''">
+                            <li><a href="#" onclick="logout(); return false; ">Đăng xuất</a></li>
+                        </ul>
+                        
+                        <div class="toggle-navigation">
+                            <div class="icon">
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                            </div>
+							</div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- end Navigation-->
+        <!-- Page Canvas-->
+        <div id="page-canvas">
+            <!--Off Canvas Navigation-->
+            <nav class="off-canvas-navigation">
+                <header>Menu</header>
+                <div class="main-navigation navigation-off-canvas"></div>
+            </nav>
+            <!--end Off Canvas Navigation-->
+
+            <!--Sub Header-->
+            <section class="sub-header">
+                <div class="search-bar horizontal collapse" id="redefine-search-form"></div>
+                <!-- /.search-bar -->
+                <div class="breadcrumb-wrapper">
+                    <div class="container">
+                        <div class="redefine-search">
+                            <a href="#redefine-search-form" class="inner" data-toggle="collapse" aria-expanded="false" aria-controls="redefine-search-form">
+                                <span class="icon"></span>
+                                <span>Search</span>
+                            </a>
+                        </div>
+                        <ol class="breadcrumb">
+                            <li><a href="index.html"><i class="fa fa-home"></i></a></li>
+                            <li class="active">Detail</li>
+                        </ol>
+                        <!-- /.breadcrumb-->
+                    </div>
+                    <!-- /.container-->
+                </div>
+                <!-- /.breadcrumb-wrapper-->
+            </section>
+            <!--end Sub Header-->
+
+            <!--Page Content-->
+            <div id="page-content">
+				<section id="map-simple" class="map-contact"></section>
+                <section class="container">
+                    <div class="row">
+                        <!--Content-->
+                        <div class="col-md-9">
+                            <header>
+                                <h1 class="page-title">Danh sách</h1>
+                            </header>
+
+                            <!--Listing List-->
+                            <section class="block listing">
+								<div ng-repeat="data in itemList">
+									<div class="item list">
+										<div class="image">
+											<a href="detail.html?{{data.url}}">
+												<div class="item-specific">
+													<span>{{data.title}}</span>
+												</div>
+												<img src="{{data.gallery[0]}}" alt="">
+											</a>
+										</div>
+										<div class="wrapper">
+											<a href="detail.html?{{data.url}}"><h3>{{data.title}}</h3></a>
+											<figure>{{data.address}}</figure>
+											<div class="info">
+												<div class="type">
+													<i><img src="{{data.type_icon}}" alt=""></i>
+													<span>{{data.category_name.vi[0]}}</span>
+												</div>
+												<div><a href="index.html?key={{data.title}}&location={{data.address}}&cata={{data.category_id[0]}}&lat={{data.latitude}}&lng={{data.longitude}}&sm=y">Xem bản đồ</a>
+												</div>
+											</div>
+										</div>
+									</div>
+									<!-- /.item-->
+								</div>
+								<center>
+									<span align="center" onclick="backToIndex()">
+										<img src="assets/img/back.png" alt="logo">
+									</span>
+								</center>
+                                
+                            </section>
+                            <!--end Listing List-->
+                        </div>
+                        <!--Sidebar-->
+                        <div class="col-md-3">
+                            <aside id="sidebar">
+                                <section>
+                                    <header><h2>Gần đây có</h2></header>
+									<div ng-repeat="nearPoint in nearPoints">
+										<a href="detail.html?{{nearPoint.url}}" class="item-horizontal small">
+											<h3>{{nearPoint.title}}</h3>
+											<figure>{{nearPoint.address}}</figure>
+											<div class="wrapper">
+												<div class="image"><img src="{{nearPoint.gallery[0]}}" alt=""></div>
+												<div class="info">
+													<div class="type">
+														<i><img src="{{nearPoint.type_icon}}" alt=""></i>
+														<span>{{nearPoint.category_name.vi[0]}}</span>
+													</div>
+												</div>
+											</div>
+										</a>
+										<!--/.item-horizontal small-->
+									</div>
+                                </section>
+                                
+                            </aside>
+                            <!-- /#sidebar-->
+                        </div>
+                        <!-- /.col-md-3-->
+                        <!--end Sidebar-->
+                    </div>
+                </section>
+            </div>
+            <!-- end Page Content-->
+        </div>
+        <!-- end Page Canvas-->
+        <!--Page Footer-->
+        <div ng-include="'inc_footer.html'"></div>
+        <!--end Page Footer-->
+    </div>
+    <!-- end Inner Wrapper -->
+</div>
+<!-- end Outer Wrapper-->
+<div id="loading-overlay"></div>
+
+<script type="text/javascript" src="assets/js/before.load.js"></script>
+<script type="text/javascript" src="//maps.google.com/maps/api/js?key=AIzaSyC6hGTAkD_Snhx1Aj0kATrn_Pd4t5QibhI&sensor=false"></script>
+<script type="text/javascript" src="assets/js/richmarker-compiled.js"></script>
+<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/smoothscroll.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.hotkeys.js"></script>
+<script type="text/javascript" src="assets/js/custom.js"></script>
+<script type="text/javascript" src="assets/js/maps.js"></script>
+
+<script>
+    $(window).load(function(){
+        //Nhà thờ Đức Bà
+		var _latitude = 10.7797838;
+		var _longitude = 106.6968061;
+        var draggableMarker = false;
+        simpleMap(_latitude, _longitude,draggableMarker);
+    });
+</script>
+
+<!--[if lte IE 9]>
+<script type="text/javascript" src="assets/js/ie-scripts.js"></script>
+<![endif]-->
+</body>
+</html>

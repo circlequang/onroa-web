@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+
+<html lang="en-US" ng-app = "mainApp" ng-controller="profileCtrl">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/bootstrap-select.min.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/fileinput.css" type="text/css">
+    <link rel="stylesheet" href="assets/plugin/sweetalert2/sweetalert2.min.css" type="text/css">
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    <script src="assets/js/common.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-sanitize.min.js"></script>
+    <script type="text/javascript" src="assets/js/common.js"></script>
+    <script src="assets/plugin/sweetalert2/sweetalert2.min.js"></script>
+    <script src="assets/js/controller.js"></script>
+    
+    <title>Onroa - Đăng nhập</title>
+
+
+</head>
+
+<body onunload="" class="page-subpage page-profile navigation-off-canvas" id="page-top">
+
+<!-- Outer Wrapper-->
+<div id="outer-wrapper">
+    <!-- Inner Wrapper -->
+    <div id="inner-wrapper">
+        <!-- Navigation-->
+        <div class="header">
+            <div class="wrapper">
+                <div class="brand">
+                    <span onclick="backToIndex()">
+                        <img src="assets/img/logo.png" alt="logo">
+                    </span>
+                </div>
+                <nav class="navigation-items">
+                    <div class="wrapper">
+                        <ul class="main-navigation navigation-top-header in-login"></ul>
+                        <ul class="user-area"  ng-if="uid == ''">
+                            <li><a target="_blank" href="#" onclick="window.open('https://play.google.com/store/apps/details?id=onroa.mobile.onroaapp', '_blank').focus();">
+                                            <img src="assets/img/android-version.png" style="width: 100px">
+                            </a></li>
+                            <li><a href="signin.html">Đăng nhập</a></li>
+                            <li><a href="register.html"><strong>Đăng ký</strong></a></li>
+                            <li><a href="#" onclick="fblogin('profile')">
+                                            <img src="assets/img/fblogin.jpg" style="width: 50px">
+                            </a></li>
+                        </ul>
+                        <ul class="user-area"  ng-if="uid != ''">
+                            <li><a href="#" onclick="logout(); return false; ">Đăng xuất</a></li>
+                        </ul>
+                        
+                        <div class="toggle-navigation">
+                            <div class="icon">
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- end Navigation-->
+        <!-- Page Canvas-->
+        <div id="page-canvas">
+            <!--Off Canvas Navigation-->
+            <nav class="off-canvas-navigation">
+                <header>Menu</header>
+                <div class="main-navigation navigation-off-canvas"></div>
+            </nav>
+            <!--end Off Canvas Navigation-->
+            <!--Page Content-->
+            <div id="page-content">
+                <section class="container">
+                    <header>
+                        <ul class="nav nav-pills">
+                            <li class="active"><h1 class="page-title">Thông tin cá nhân</h1></li>
+                        </ul>
+                    </header>
+                    <div class="row">
+                        <div class="col-md-9">
+                                <div class="row">
+                                    <!--Profile Picture-->
+                                    <div class="col-md-3 col-sm-3">
+                                        <section>
+                                            <form id="form-avatar" role="form" method="post" enctype="multipart/form-data">
+                                            <h3><i class="fa fa-image"></i>Avatar</h3>
+                                            <img src="{{data.profile.avatar}}" alt="">
+                                            <br>
+                                            <input name="upload" id="upload" type="file" ng-if="uid == data.profile._id">
+                                            <br>
+                                            <div class="form-group" ng-if="uid == data.profile._id">
+                                                <button type="submit" class="btn btn-default" id="submit-avatar" ng-click = "doChangeAvatar()">Đổi avatar</button>
+                                            </div>
+                                            </form>
+                                        </section>
+                                    </div>
+                                    <!--/.col-md-3-->
+
+                                    <!--Contact Info-->
+                                    <div class="col-md-9 col-sm-9" ng-switch on="uid">
+                                        <section>
+                                            <h3><i class="fa fa-user"></i>Thông tin cá nhân</h3>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="name">Họ Tên</label><span class="form_message" id="email_message"></span>
+                                                        <input type="text" class="form-control" id="full_name" name="full_name" ng-if="uid == data.profile._id" value="{{data.profile.display_name}}">
+                                                        <div ng-if="uid != data.profile._id">{{data.profile.display_name}}</div>
+                                                    </div>
+                                                    <!--/.form-group-->
+                                                </div>
+
+                                                <!--/.col-md-3-->
+                                                <div class="col-md-6 col-sm-6" ng-if="uid == data.profile._id">
+                                                    <div class="form-group">
+                                                        <label for="email">Email</label>
+                                                        <div>{{data.profile.email}}</div>
+                                                    </div>
+                                                    <!--/.form-group-->
+                                                </div>
+                                                <!--/.col-md-3-->
+                                                
+                                            </div>
+                                        </section>
+                                        <section>
+                                            <div class="row">
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="name">URL Cá nhân</label><span class="form_message" id="burl_message"></span>
+                                                        <input type="text" class="form-control" id="burl" name="burl" ng-if="uid == data.profile._id" value="{{burl}}">
+                                                        <div ng-if="uid != data.profile._id">
+                                                            <A href="profile.html?{{burl}}"> https://onroa.com/profile.html?{{burl}}
+                                                            </A>
+                                                        </div>
+                                                    </div>
+                                                    <!--/.form-group-->
+                                                </div>
+                                                <!--/.col-md-3-->
+                                                <div class="col-md-6 col-sm-6">
+                                                    <div class="form-group">
+                                                        <label for="email">Bản đồ cá nhân</label>
+                                                        <div>
+                                                            <A href="bmap.html?{{burl}}" id="burl_link"> https://onroa.com/bmap.html?{{burl}}
+                                                            </A>
+                                                        </div>
+                                                    </div>
+                                                    <!--/.form-group-->
+                                                </div>
+                                                <!--/.col-md-3-->
+                                                
+                                                <!--/.col-md-3-->
+                                            </div>
+                                        </section>
+                                        <section>
+                                            <label for="description"><i class="fa fa-info-circle"></i>Tự giới thiệu</label>
+                                            <div class="form-group">
+                                                <div  ng-if="uid == data.profile._id"><textarea class="form-control" id="description" rows="3" name="description">{{data.profile.description}}</textarea></div>
+                                                <div  ng-if="uid != data.profile._id">{{data.profile.description}}</div>
+                                            </div>
+                                            <!--/.form-group-->
+                                        </section>
+                                        <div class="form-group" ng-if="uid == data.profile._id">
+                                            <button type="submit" class="btn btn-large btn-default" id="submit" ng-click = "doChangeProfile()">Lưu</button>
+                                        </div>
+                                        <!-- /.form-group -->
+                                        
+                                        <!--Listing List-->
+                                        <section class="block listing">
+                                            <header ng-if="data.points.length > 0" >
+                                                <ul class="nav nav-pills">
+                                                    <li class="active"><a href="profile.html"><h1 class="page-title">Bình luận gần đây</h1></a></li>
+                                                </ul>
+                                            </header>
+                                            <div ng-repeat="point in data.points">
+                                                <div class="item list">
+                                                    <div class="image">
+                                                        <a href="detail.html?{{point.url}}">
+                                                            <div class="item-specific">
+                                                                <span>{{point.title}}</span>
+                                                            </div>
+                                                            <img src="{{point.gallery[0]}}" alt="">
+                                                        </a>
+                                                    </div>
+                                                    <div class="wrapper">
+                                                        <a href="detail.html?{{point.url}}"><h3>{{point.title}}</h3></a>
+                                                        <figure>{{point.address}}</figure>
+                                                        <div class="info">
+                                                            <div class="type">
+                                                                <i><img src="{{point.type_icon}}" alt=""></i>
+                                                                <span>{{point.category_name.vi[0]}}</span>
+                                                            </div>
+                                                            <div><a href="index.html?key={{point.title}}&location={{point.address}}&cata={{point.category_id[0]}}&lat={{point.latitude}}&lng={{point.longitude}}&sm=y">Xem bản đồ</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- /.item-->
+                                            </div>
+                                        </section>
+                                        <!--end Listing List-->
+                                    </div>
+                                    <!--/.col-md-6-->
+                                </div>
+                        </div>
+                        <!--Password-->
+                        <div class="col-md-3 col-sm-9" ng-if="uid == data.profile._id">
+                            <h3><i class="fa fa-asterisk"></i>Đổi mật khẩu</h3>
+                            <form class="framed" id="form-password" role="form" method="post"  onsubmit="return false;">
+                                <div class="form-group">
+                                    <label for="current-password">Mật khẩu hiện tại</label><div class="form_message" id="current-password-message">&nbsp;</div>
+                                    <input type="password" class="form-control" id="current-password" name="current-password">
+                                </div>
+                                <!--/.form-group-->
+                                <div class="form-group">
+                                    <label for="new-password">Mật khẩu mới</label>
+                                    <div class="form_message" id="new-password-message">&nbsp;</div>
+                                    <input type="password" class="form-control" id="new-password" name="new-password">
+                                </div>
+                                <!--/.form-group-->
+                                <div class="form-group">
+                                    <label for="confirm-new-password">Nhập lại mật khẩu</label><div class="form_message" id="confirm-new-password-message">&nbsp;</div>
+                                    <input type="password" class="form-control" id="confirm-new-password" name="confirm-new-password">
+                                </div>
+                                <!--/.form-group-->
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-default" ng-click = "doChangePassword()">Đổi mật khẩu</button>
+                                </div>
+                                <!-- /.form-group -->
+                            </form>
+                        </div>
+                        <!-- /.col-md-3-->
+                        <!--Bmap-->
+                        <div class="col-md-3 col-sm-9" ng-if="uid != data.profile._id">
+                            <h3><i class="fa fa-asterisk"></i>Bản đồ cá nhân</h3>
+                            <A href="bmap.html?{{burl}}"> <img src="assets/img/bmap.jpg">
+                                                            </A>
+                            <p>Bản đồ cá nhân là nơi lưu dấu những địa điểm mà {{data.profile.display_name}} đã đi qua</p>
+                        </div>
+                        <!-- /.col-md-3-->
+                    </div>
+                </section>
+            </div>
+            <!-- end Page Content-->
+        </div>
+        <!-- end Page Canvas-->
+        <!--Page Footer-->
+        <div ng-include="'inc_footer.html'"></div>
+        <!--end Page Footer-->
+    </div>
+    <!-- end Inner Wrapper -->
+</div>
+<!-- end Outer Wrapper-->
+
+<div id="loading-overlay"></div>
+
+
+<script type="text/javascript" src="assets/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="assets/js/before.load.js"></script>
+<script type="text/javascript" src="assets/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/smoothscroll.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.hotkeys.js"></script>
+<script type="text/javascript" src="assets/js/dropzone.min.js"></script>
+<script type="text/javascript" src="assets/js/custom.js"></script>
+<script type="text/javascript" src="assets/js/maps.js"></script>
+<script src="assets/js/fileinput.js"></script>
+<script src="assets/js/jquery.alerts.js"></script>
+<script src="assets/js/page/profile.js"></script>
+
+<!--[if lte IE 9]>
+<script type="text/javascript" src="js/ie-scripts.js"></script>
+<![endif]-->
+</body>
+</html>

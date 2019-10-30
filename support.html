@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+
+<html lang="en-US"  ng-app = "mainApp" ng-controller="supportCtrl">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/bootstrap-select.min.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
+	
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-sanitize.min.js"></script>
+	<script src="assets/js/controller.js"></script>
+	
+    <title>Onroa - Hướng dẫn</title>
+</head>
+
+<body onunload="" class="page-subpage page-contact navigation-off-canvas" id="page-top">
+
+<!-- Outer Wrapper-->
+<div id="outer-wrapper">
+    <!-- Inner Wrapper -->
+    <div id="inner-wrapper">
+        <!-- Navigation-->
+        <div class="header">
+            <div class="wrapper">
+                <div class="brand">
+                    <span onclick="goToApp()">
+						<img src="assets/img/logo.png" alt="logo">
+					</span>
+                </div>
+                <nav class="navigation-items">
+                    <div class="wrapper">
+                        <ul class="main-navigation navigation-top-header in-login"></ul>
+                        <ul class="user-area"  ng-if="uid == ''">
+                            <li><a href="signin.html">Đăng nhập</a></li>
+                            <li><a href="register.html"><strong>Đăng ký</strong></a></li>
+                        </ul>
+						<ul class="user-area"  ng-if="uid != ''">
+                            <li><a href="#" onclick="logout(); return false; ">Đăng xuất</a></li>
+                        </ul>
+                        
+                        <div class="toggle-navigation">
+                            <div class="icon">
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- end Navigation-->
+        <!-- Page Canvas-->
+        <div id="page-canvas">
+            <!--Off Canvas Navigation-->
+            <nav class="off-canvas-navigation">
+                <header>Menu</header>
+                <div class="main-navigation navigation-off-canvas"></div>
+            </nav>
+            <!--end Off Canvas Navigation-->
+
+            <!--Sub Header-->
+            <section class="sub-header">
+                <div class="breadcrumb-wrapper">
+                    <!-- /.container-->
+                </div>
+                <!-- /.breadcrumb-wrapper-->
+            </section>
+            <!--end Sub Header-->
+
+            <!--Page Content-->
+            <div id="page-content">
+                <section class="container">
+                    <div class="row">
+                        <!--Content-->
+                        <div class="col-md-9">
+                            <header>
+                                <center><h2 class="page-title">Hướng dẫn</h2></center>
+                            </header>
+                            <center>
+								<b>1.</b> Để tạo bản đồ cá nhân, vào trang cá nhân đăng ký <b>[URL cá nhân]</b>.<br>
+								<img src="assets/img/support-burl.png" alt="URL cá nhân">
+								<br>
+								<br>
+								<br>
+								<b>2.</b> Dữ liệu bản đồ cá nhân được thêm bằng cách chọn <b>[Check-in]</b> khi bình luận hoặc <b>[Thêm địa điểm mới]</b>. <br>
+								<img src="assets/img/support-check-in.png" alt="Check-in">
+								<br>
+								<br>
+								<br>
+								<button type="submit" class="btn pull-center btn-default" id="app-submit"  onclick="goToApp()">Về trang chủ</button>
+							</center>
+                                
+
+                            <!--end Listing List-->
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!-- end Page Content-->
+        </div>
+        <!-- end Page Canvas-->
+        <!--Page Footer-->
+        <div ng-include="'inc_footer.html'"></div>
+        <!--end Page Footer-->
+    </div>
+    <!-- end Inner Wrapper -->
+</div>
+<!-- end Outer Wrapper-->
+<script type="text/javascript" src="assets/js/before.load.js"></script>
+<script type="text/javascript" src="assets/js/richmarker-compiled.js"></script>
+<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/smoothscroll.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.hotkeys.js"></script>
+
+<script>
+    function goToApp() {
+		window.location = "index.html?back=y";
+	}
+</script>
+
+<!--[if lte IE 9]>
+<script type="text/javascript" src="assets/js/ie-scripts.js"></script>
+<![endif]-->
+</body>
+</html>

@@ -1,0 +1,221 @@
+.form_message {
+	font-size: 15px;
+	color:red;
+	font-weight: bold;
+}
+
+/* For menu ================================================= ST */
+/* adjust body when menu is open */
+
+/* For menu ================================================= ED */
+
+/* For loading ================================================ ST */
+#overlay {
+	background-image: url("/assets/img/loading.gif");
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: center; 
+	/*
+	z-index: 1000;
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;*/
+	width:100;
+	height:100;
+	
+	z-index:999;
+	position:absolute;
+	top:-15px;
+	right:-18px;
+	cursor:pointer;
+	display: none;
+}
+/* For loading ================================================ ED */
+
+.form_message {
+    font-size: 15px;
+    color: red;
+    font-weight: bold;
+}
+
+.img-wrap {
+    position: relative;
+    display: inline-block;
+    border: 1px red solid;
+    font-size: 0;
+}
+.img-wrap .close {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    z-index: 100;
+    background-color: #FFF;
+    padding: 5px 2px 2px;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    opacity: .2;
+    text-align: center;
+    font-size: 22px;
+    line-height: 10px;
+    border-radius: 50%;
+}
+.img-wrap:hover .close {
+    opacity: 1;
+}
+
+/* For Message ================================================ ST */
+.message_block_img {
+	margin: 4px 4px 0 0;
+    width: 60px;
+    height:60px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    text-align: justify;
+    padding: 4px;
+}
+/* For Message ================================================ ED */
+
+
+/* User Message Block ========================================= ST */
+.user-message-block {
+    border: solid  0px;
+    overflow: scroll;
+    overflow-y:auto; 
+    overflow-x:hidden; 
+    height: 525px;
+}
+/* User Message Block ========================================= ED */
+
+/* .modal-transparent ========================================= ST  */
+
+.modal-transparent {
+  background: transparent;
+}
+.modal-transparent .modal-content {
+  background: transparent;
+}
+.modal-backdrop.modal-backdrop-transparent {
+  background: #ffffff;
+}
+.modal-backdrop.modal-backdrop-transparent.in {
+  opacity: .9;
+  filter: alpha(opacity=90);
+}
+
+/* .modal-fullscreen */
+
+.modal-fullscreen {
+  background: transparent;
+  top : 0px;
+}
+.modal-fullscreen .modal-content {
+  background: transparent;
+  border: 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.modal-backdrop.modal-backdrop-fullscreen {
+  background: #ffffff;
+}
+.modal-backdrop.modal-backdrop-fullscreen.in {
+  opacity: .97;
+  filter: alpha(opacity=97);
+}
+
+/* .modal-fullscreen size: we use Bootstrap media query breakpoints */
+
+.modal-fullscreen .modal-dialog {
+  margin: 0;
+  margin-right: auto;
+  margin-left: auto;
+  width: 100%;
+  height: 100%;
+}
+@media (min-width: 768px) {
+  .modal-fullscreen .modal-dialog {
+    width: 750px;
+  }
+}
+@media (min-width: 992px) {
+  .modal-fullscreen .modal-dialog {
+    width: 970px;
+  }
+}
+@media (min-width: 1200px) {
+  .modal-fullscreen .modal-dialog {
+     width: 1170px;
+  }
+}
+/* .modal-transparent ========================================= ED  */
+
+
+/*This is modifying the btn-primary colors but you could create your own .btn-something class as well*/
+.btn-direction {
+    color: #fff;
+    background-color: #81DAF5;
+    border-color: #357ebd; /*set the color you want here*/
+}
+.btn-direction:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open>.dropdown-toggle.btn-primary {
+    color: #fff;
+    background-color: #00b3db;
+    border-color: #285e8e; /*set the color you want here*/
+}
+
+/* For loading ================================================ ST */
+#loading-overlay {
+  background-image: url("../../assets/img/loading.gif");
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: center; 
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  right: 0; 
+  bottom: 0; 
+  background-color: #fff; 
+  z-index: 9999;
+}
+/* For loading ================================================ ED */
+
+/* Footer News ================================================ ST */
+.footer_news {
+    border-top: 3px solid #008CE4;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+}
+.footer_news_btn {
+    background: url("http://cdn1.iconfinder.com/data/icons/splashyIcons/arrow_state_blue_collapsed.png") no-repeat scroll 90% center #008CE4;
+    border: medium none;
+    color: #FFFFFF;
+    display: block;
+    font-size: 14px;
+    height: 20px;
+    left: 50%;
+    line-height: 20px;
+    margin-left: -32px;
+    padding: 0 18px 0 6px;
+    position: absolute;
+    text-transform: uppercase;
+    top: -20px;
+    width: 140px;
+}
+.footer_news_btn.toggle {
+    background: url("http://cdn1.iconfinder.com/data/icons/splashyIcons/arrow_state_grey_expanded.png") no-repeat scroll 90% center #008CE4 !important;
+}
+.footer_news_wrapper {
+    height: 0;
+    opacity: 0;
+    overflow: hidden;
+}
+/* Footer News ================================================ ED */

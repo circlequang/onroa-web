@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Onroa - Hệ thống dẫn đường</title>
+	
+	<link rel="stylesheet" href="assets/plugin/sweetalert2/sweetalert2.min.css" type="text/css">
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script src="assets/plugin/sweetalert2/sweetalert2.min.js"></script>
+	<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #floating-panel {
+        position: absolute;
+        top: 10px;
+        left: 25%;
+        z-index: 5;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #999;
+        text-align: center;
+        font-family: 'Roboto','sans-serif';
+        line-height: 30px;
+        padding-left: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+	
+	var mapStyles = [
+            {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+			{
+				featureType: 'poi.business',
+				stylers: [{visibility: 'off'}]
+			  },
+			  {
+				featureType: 'transit',
+				elementType: 'labels.icon',
+				stylers: [{visibility: 'off'}]
+			  },
+            {
+              featureType: 'administrative.locality',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'poi',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'geometry',
+              stylers: [{color: '#263c3f'}]
+            },
+            {
+              featureType: 'poi.park',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#6b9a76'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry',
+              stylers: [{color: '#38414e'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#212a37'}]
+            },
+            {
+              featureType: 'road',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#9ca5b3'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry',
+              stylers: [{color: '#746855'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'geometry.stroke',
+              stylers: [{color: '#1f2835'}]
+            },
+            {
+              featureType: 'road.highway',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#f3d19c'}]
+            },
+            {
+              featureType: 'transit',
+              elementType: 'geometry',
+              stylers: [{color: '#2f3948'}]
+            },
+            {
+              featureType: 'transit.station',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#d59563'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'geometry',
+              stylers: [{color: '#17263c'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.fill',
+              stylers: [{color: '#515c6d'}]
+            },
+            {
+              featureType: 'water',
+              elementType: 'labels.text.stroke',
+              stylers: [{color: '#17263c'}]
+            }
+          ];
+	 
+	 var map = null;
+      function initMap() {
+		//Lấy tọa độ điểm B
+		
+		search =  window.location.search;
+		if(search.length > 0) {
+			search = search.substring(1);
+			obj = JSON.parse('{"' + decodeURI(search).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
+			
+			_latitudeSrc = obj.lat;
+			_longitudeSrc = obj.lng;
+			_latitudeTar = obj._lat;
+			_longitudeTar = obj._lng;
+		}
+		
+		if(_latitudeSrc == undefined) {
+			if (navigator.geolocation) {
+					//Trường hợp là vào iPhone và vài dong máy khác 
+					_maximumAge = 6000;
+					if( /Safari|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+						 _maximumAge = 1;
+					}
+					var options = {
+					  maximumAge: _maximumAge,
+					  timeout: 3000,
+					  enableHighAccuracy: true,
+				   };
+			   
+					var watchID = navigator.geolocation.getCurrentPosition(onSuccess, onError, options);
+
+					function onSuccess(position) {
+						_latitudeSrc = position.coords.latitude;
+						_longitudeSrc = position.coords.longitude;
+						
+						loadMap(_latitudeSrc, _longitudeSrc, _latitudeTar, _longitudeTar);
+						directions(_latitudeSrc, _longitudeSrc, _latitudeTar, _longitudeTar);
+						onroa.showmap();
+					};
+
+				   function onError(error) {
+						//Tọa độ nhà thờ Đức Bà - tọa độ mặc định
+						swal("Không xác định được tọa độ hiện tại của bạn, xin vui lòng kiễm tra GPS");
+						
+						_latitudeSrc = 10.7797838;
+						_longitudeSrc = 106.6968061;
+						loadMap(_latitudeSrc, _longitudeSrc, _latitudeTar, _longitudeTar);
+				   }
+			} 
+			//Không lấy được geo data thì dùng tọa độ mặc định là nhà thờ Đức Bà
+			else {
+				swal("Không xác định được tọa độ hiện tại của bạn, xin vui lòng bật GPS");
+				_latitudeSrc = 10.7797838;
+				_longitudeSrc = 106.6968061; 
+				loadMap(_latitudeSrc, _longitudeSrc, _latitudeTar, _longitudeTar);
+			}
+		}
+		
+      }
+	  
+	  function loadMap(_latitudeSrc, _longitudeSrc, _latitudeTar, _longitudeTar) {
+		mapCenter = new google.maps.LatLng(_latitudeSrc, _longitudeSrc);
+		
+		mapOptions = {
+				zoom: 17,
+				center: mapCenter,
+				disableDefaultUI: false,
+				scrollwheel: false,
+				styles: mapStyles,
+				mapTypeControlOptions: {
+					style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+					position: google.maps.ControlPosition.BOTTOM_CENTER
+				},
+				panControl: false,
+				zoomControl: true,
+				zoomControlOptions: {
+					style: google.maps.ZoomControlStyle.LARGE,
+					position: google.maps.ControlPosition.RIGHT_TOP
+				}
+			};
+		
+        map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+	  }
+	  
+	  function directions(_latitudeSrc, _longitudeSrc, _latitudeTar, _longitudeTar) {
+		var directionsService = new google.maps.DirectionsService;
+        var directionsDisplay = new google.maps.DirectionsRenderer;
+		var pointA = new google.maps.LatLng(_latitudeSrc, _longitudeSrc);
+		var pointB = new google.maps.LatLng(_latitudeTar, _longitudeTar);
+		
+		
+        directionsDisplay.setMap(map);
+		calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
+	  }
+
+      function calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB) {
+        directionsService.route({
+		origin: pointA,
+		destination: pointB,
+          travelMode:  google.maps.TravelMode.DRIVING
+        }, function(response, status) {
+          if (status === 'OK') {
+            directionsDisplay.setDirections(response);
+          } else {
+            window.alert('Directions request failed due to ' + status);
+          }
+        });
+      }
+	  
+
+	
+	window.onroa = window.onroa || {
+		showmap: function() {
+			var	// get the page's canvas container
+				mapCanvas = document.getElementById( 'map' ),
+				
+				myMarker = 0,
+				displayLocation = function( position ) {
+					// create a new LatLng object for every position update
+					var myLatLng = new google.maps.LatLng( position.coords.latitude, position.coords.longitude );
+
+					// build entire marker first time thru
+					if ( !myMarker ) {
+						// define our custom marker image
+						var image = new google.maps.MarkerImage(
+							'assets/img/bluedot.png',
+							null, // size
+							null, // origin
+							new google.maps.Point( 8, 8 ), // anchor (move to center of marker)
+							new google.maps.Size( 17, 17 ) // scaled size (required for Retina display icon)
+						);
+
+						// then create the new marker
+						myMarker = new google.maps.Marker({
+							flat: true,
+							icon: image,
+							map: map,
+							optimized: false,
+							position: myLatLng,
+							title: 'I might be here',
+							visible: true
+						});
+					
+					// just change marker position on subsequent passes
+					} else {
+						myMarker.setPosition( myLatLng );
+					}
+
+					// center map view on every pass
+					map.setCenter( myLatLng );
+				},
+				handleError = function( error ) {
+					var errorMessage = [ 
+						'Chúng tôi không lấy được vị trí của bạn.',
+						'Hệ thống đã từ chối cung cấp vị trí của bạn.',
+						'Không xác định được vị trí của bạn.',
+						'Thời gian chờ quá dài.'
+					];
+
+					alert( errorMessage[ error.code ] );
+				},
+				// cache the userAgent
+				useragent = navigator.userAgent;
+
+			// set the map canvas's height/width (Google Maps needs inline height/width)
+			//mapCanvas.style.width = mapCanvas.style.height = '100%';
+
+			// allow iPhone or Android to track movement
+			if ( useragent.indexOf('iPhone') !== -1 || useragent.indexOf('Android') !== -1 ) {
+				navigator.geolocation.watchPosition( 
+					displayLocation, 
+					handleError, 
+					{ 
+						enableHighAccuracy: true, 
+						maximumAge: 30000, 
+						timeout: 27000 
+					}
+				);			
+
+			// or let other geolocation capable browsers to get their static position
+			} else if ( navigator.geolocation ) {
+				navigator.geolocation.getCurrentPosition( displayLocation, handleError );
+			}
+		}
+	};
+	
+	</script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC6hGTAkD_Snhx1Aj0kATrn_Pd4t5QibhI&callback=initMap">
+    </script>
+  <script>
+	 //Google Analyze
+	 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-89784140-1', 'auto');
+	  ga('send', 'pageview');
+  </script>
+  </body>
+</html>

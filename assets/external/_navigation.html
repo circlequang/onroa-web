@@ -1,0 +1,49 @@
+<ul>
+	<li id="mnIndex"><a href="#" onclick="backToIndex()">Trang chủ</a></li>
+	<li id="mnSignin"><a href="signin.html">Đăng nhập</a></li>
+	<li id="mnRegister"><a href="register.html">Đăng ký</a></li>
+	<li id="mnProfile"><a href="profile.html">Trang cá nhân</a></li>
+	<li id="mnSubmit"><a href="submit.html">Thêm địa điểm mới</a></li>
+	<li id="mnBMap"><a href="bmap.html">Bản đồ cá nhân</a></li>
+	<li id="mnSupport"><a href="support.html">Hướng dẫn sử dụng</a></li>
+	<li id="mnBlog"><a href="https://www.facebook.com/onroa.maps/" target="_blog">Blog</a></li>
+	<li id="mnContact"><a href="contact.html">Liên hệ - góp ý</a></li>
+    <li id="mnAboutus"><a href="aboutus.html">Giới thiệu</a></li>
+	<li id="mnTerms"><a href="terms.html">Điều khoản sử dụng</a></li>
+	<li id="mnPolicy"><a href="policy.html">Bảo mật</a></li>
+	<li id="mnLogout"><a href="#" onclick="logout(); return false; ">Đăng xuất</a></li>
+</ul>
+<script>
+reloadMenu();
+function reloadMenu() {
+	if(uid == "") {
+		document.getElementById("mnSignin").setAttribute("style", "");
+		document.getElementById("mnRegister").setAttribute("style", "");
+		document.getElementById("mnLogout").setAttribute("style", "display:none;");
+		document.getElementById("mnBMap").setAttribute("style", "display:none;");
+		document.getElementById("mnProfile").setAttribute("style", "display:none;");
+		document.getElementById("mnSubmit").setAttribute("style", "display:none;");
+		
+		//Trường hợp đây là trang submit và user chưa login thì chuyển đến trang index
+		if(window.location.pathname.search('submit.html') > 0) {
+			window.location = "index.html";
+		}
+		
+		//Trường hợp đây là trang profile, user chưa login nhưng đang visit một user khác "không tồn tại" thì chuyển đến trang index
+		if((window.location.pathname.search('profile.html') > 0) && (tuid == "")) {
+			window.location = "index.html";
+		}
+	} else {
+		document.getElementById("mnSignin").setAttribute("style", "display:none;");
+		document.getElementById("mnRegister").setAttribute("style", "display:none;");
+		document.getElementById("mnLogout").setAttribute("style", "");
+		document.getElementById("mnProfile").setAttribute("style", "");
+		document.getElementById("mnBMap").setAttribute("style", "");
+		document.getElementById("mnSubmit").setAttribute("style", "");
+	}
+}
+
+function callLogout() {
+	return logout();
+}
+</script>

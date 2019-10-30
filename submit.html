@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+
+<html lang="en-US"  ng-app = "mainApp" ng-controller="submitCtrl" >
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/bootstrap-select.min.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
+	<link rel="stylesheet" href="assets/css/fileinput.css" type="text/css">
+	<link rel="stylesheet" href="assets/plugin/sweetalert2/sweetalert2.min.css" type="text/css">
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-sanitize.min.js"></script>
+	<script type="text/javascript" src="assets/js/common.js"></script>
+	<script src="assets/plugin/sweetalert2/sweetalert2.min.js"></script>
+	<script src="assets/js/common.js"></script>
+	<script src="assets/js/controller.js"></script>
+
+    <title>Onroa - đăng ký địa điểm mới</title>
+
+</head>
+
+<body onunload="" class="page-subpage page-submit navigation-off-canvas" id="page-top">
+
+<!-- Outer Wrapper-->
+<div id="outer-wrapper">
+    <!-- Inner Wrapper -->
+    <div id="inner-wrapper">
+        <!-- Navigation-->
+        <div class="header">
+            <div class="wrapper">
+                <div class="brand">
+                    <span onclick="backToIndex()">
+						<img src="assets/img/logo.png" alt="logo">
+					</span>
+                </div>
+                <nav class="navigation-items">
+                    <div class="wrapper">
+                        <ul class="main-navigation navigation-top-header in-login"></ul>
+                        <ul class="user-area"  ng-if="uid == ''">
+							<li><a target="_blank" href="#" onclick="window.open('https://play.google.com/store/apps/details?id=onroa.mobile.onroaapp', '_blank').focus();">
+											<img src="assets/img/android-version.png" style="width: 100px">
+							</a></li>
+                            <li><a href="signin.html">Đăng nhập</a></li>
+                            <li><a href="register.html"><strong>Đăng ký</strong></a></li>
+							<li><a href="#" onclick="fblogin('submit')">
+											<img src="assets/img/fblogin.jpg" style="width: 50px">
+							</a></li>
+						</ul>
+						<ul class="user-area"  ng-if="uid != ''">
+                            <li><a href="#" onclick="logout(); return false; ">Đăng xuất</a></li>
+                        </ul>
+                        
+                        <div class="toggle-navigation">
+                            <div class="icon">
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- end Navigation-->
+        <!-- Page Canvas-->
+        <div id="page-canvas">
+            <!--Off Canvas Navigation-->
+            <nav class="off-canvas-navigation">
+                <header>Menu</header>
+                <div class="main-navigation navigation-off-canvas"></div>
+            </nav>
+            <!--end Off Canvas Navigation-->
+
+            <!--Sub Header-->
+            <section class="sub-header">
+                <div class="search-bar horizontal collapse" id="redefine-search-form"></div>
+                <!-- /.search-bar -->
+                <div class="breadcrumb-wrapper">
+                    <div class="container">
+                        <div class="redefine-search">
+                            <a href="#redefine-search-form" class="inner" data-toggle="collapse" aria-expanded="false" aria-controls="redefine-search-form">
+                                <span class="icon"></span>
+                                <span>Search</span>
+                            </a>
+                        </div>
+                        <ol class="breadcrumb">
+                            <li><a href="index.html"><i class="fa fa-home"></i></a></li>
+                            <li class="active">Detail</li>
+                        </ol>
+                        <!-- /.breadcrumb-->
+                    </div>
+                    <!-- /.container-->
+                </div>
+                <!-- /.breadcrumb-wrapper-->
+            </section>
+            <!--end Sub Header-->
+
+            <!--Page Content-->
+            <div id="page-content">
+				<form id="form-submit" role="form" method="post" enctype="multipart/form-data">
+                <section class="container">
+                    <div class="row">
+                        <!--Content-->
+                        <div class="col-md-9">
+                            <header>
+                                <h1 class="page-title">Địa điểm mới</h1>
+                            </header>
+                            
+                                <section>
+									<div class="row">
+										<div class="col-md-12 col-sm-12">
+											<label for="title">Tên địa điểm</label><span class="form_message" id="title_message"></span>
+											<input type="text" class="form-control" id="title" name="title">
+										</div>
+										</div>	<br>
+									<div class="row">
+										<div class="col-md-12 col-sm-12">
+											<label for="title">Mô tả</label><span class="form_message" id="des_message"></span>
+											<textarea class="form-control" id="des" name="des" rows="4" cols="50"></textarea>
+										</div>
+									</div>
+                                </section>
+                                <section>
+                                    <h3>Thông tin</h3>
+									<div class="row">
+										<div class="col-md-8 col-sm-8">
+											<div class="form-group">
+												<label for="title">Địa chỉ</label><span class="form_message" id="address_message"></span>
+												<input type="text" class="form-control" id="address" name="address"  onchange="addressChange()">
+											</div>
+										</div>
+									
+									
+										<div class="col-md-4 col-sm-4">
+                                            <div class="form-group">
+                                                <label for="state">Tỉnh/Thành Phố</label><span class="form_message" id="city_message"></span>
+                                                <select name="city" id="city" class="framed"  onchange="addressChange()">
+													<option value="0">Chọn tỉnh thành</option>
+														<option value="217">
+														Hồ Chí Minh</option>
+														
+														<option value="218">
+														Hà Nội</option>
+																			
+														 <option value="219">
+														Đà Nẵng</option>
+																			
+														 <option value="221">
+														Cần Thơ</option>
+																			
+														 <option value="248">
+														Khánh Hoà</option>
+																			
+														 <option value="223">
+														Vũng Tàu</option>
+																			
+														 <option value="220">
+														Hải Phòng</option>
+																			
+														 <option value="233">
+														 Bình Thuận</option>
+																			
+														 <option value="254">
+														Lâm Đồng</option>
+																			
+														 <option value="222">
+														Đồng Nai</option>
+																			
+														 <option value="265">
+														Quảng Ninh</option>
+																			
+														 <option value="273">
+														Huế</option>
+																			
+														 <option value="230">
+														Bình Dương</option>
+																			
+														 <option value="244">
+														Hải Dương</option>
+																			
+														 <option value="259">
+														Ninh Thuận</option>
+																			
+																			
+														 <option value="256">
+														Nam Định</option>
+																			
+														 <option value="274">
+														Tiền Giang</option>
+																			
+														 <option value="250">
+														Kon Tum</option>
+																			
+														 <option value="263">
+														Quảng Nam</option>
+																			
+														 <option value="253">
+														Lào Cai</option>
+																			
+														 <option value="257">
+														 Nghệ An</option>
+																			
+														 <option value="255">
+														Long An</option>
+																			
+														 <option value="231">
+														Bình Định</option>
+																			
+														 <option value="249">
+														Kiên Giang</option>
+																			
+														 <option value="224">
+														An Giang</option>
+																			
+														 <option value="236">
+														Đắk Lắk</option>
+																			
+														 <option value="239">
+														Đồng Tháp</option>
+																			
+														 <option value="277">
+														Vĩnh Long</option>
+																			
+														 <option value="234">
+														Cà Mau</option>
+																			
+														 <option value="240">
+														Gia Lai</option>
+																			
+														 <option value="269">
+														Tây Ninh</option>
+																			
+														 <option value="267">
+														Sóc Trăng</option>
+																			
+														 <option value="229">
+														Bến Tre</option>
+																			
+														 <option value="275">
+														Trà Vinh</option>
+														 
+														 <option value="232">
+														Bình Phước</option>
+																			
+														 <option value="264">
+														Quảng Ngãi</option>
+																			
+														 <option value="225">
+														Bạc Liêu</option>
+																			
+														 <option value="228">
+														Bắc Ninh</option>
+																			
+														 <option value="278">
+														Vĩnh Phúc</option>
+																			
+														 <option value="261">
+														Phú Yên</option>
+																			
+														 <option value="272">
+														 Thanh Hoá</option>
+																			
+														 <option value="258">
+														Ninh Bình</option>
+																			
+														 <option value="227">
+														Bắc Giang</option>
+																			
+														 <option value="245">
+														Hậu Giang</option>
+																			
+														 <option value="266">
+														Quảng Trị</option>
+																			
+														 <option value="243">
+														Hà Tĩnh</option>
+																			
+														 <option value="271">
+														Thái Nguyên</option>
+																			
+														 <option value="262">
+														Quảng Bình</option>
+																			
+														 <option value="260">
+														Phú Thọ</option>
+																			
+														 <option value="270">
+														Thái Bình</option>
+																			
+														 <option value="252">
+														Lạng Sơn</option>
+																			
+														 <option value="241">
+														Hà Giang</option>
+																			
+														 <option value="237">
+														Đắk Nông</option>
+																			
+														 <option value="247">
+														Hưng Yên</option>
+														 
+														 <option value="246">
+														Hòa Bình</option>
+																			
+														 <option value="276">
+														Tuyên Quang</option>
+																			
+														 <option value="268">
+														Sơn La</option>
+																			
+														 <option value="242">
+														Hà Nam</option>
+																			
+														 <option value="279">
+														Yên Bái</option>
+																			
+														 <option value="235">
+														Cao Bằng</option>
+																			
+														 <option value="238">
+														 Điện Biên</option>
+																			
+														 <option value="251">
+														Lai Châu</option>
+																			
+														 <option value="226">
+														 Bắc Kạn</option>
+												</select>
+                                            </div>
+                                        </div>
+									</div>
+                                    <!--/.row-->
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-4">
+                                            <div class="form-group">
+                                                <label for="phone-number">Số điện thoại</label><span class="form_message" id="phone_message"></span>
+                                                <input type="text" class="form-control" id="phone-number" name="phone-number" pattern="\d*">
+                                            </div>
+                                        </div>
+                                        <!--/.col-md-4-->
+                                        <div class="col-md-4 col-sm-4">
+                                            <div class="form-group">
+                                                <label for="email">E-mail</label><span class="form_message" id="title_message"></span>
+                                                <input type="email" class="form-control" id="email" name="email">
+                                            </div>
+                                        </div>
+                                        <!--/.col-md-4-->
+                                        <div class="col-md-4 col-sm-4">
+                                            <div class="form-group">
+                                                <label for="website">Website</label><span class="form_message" id="owner_message"></span>
+                                                <input type="text" class="form-control" id="website" name="website">
+                                            </div>
+                                        </div>
+                                        <!--/.col-md-4-->
+                                    </div>
+                                    <!--/.row-->
+                                </section>
+                                <!--/#address-contact-->
+                                <section>
+                                    <h3>Bản đồ</h3>
+									<div class="row">
+										<div class="col-md-6 col-sm-6">
+											<label for="lat_lng">Tọa độ địa điểm</label><span class="form_message" id="lat_lng_message"></span>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-2 col-sm-2">
+											<div class="form-group">
+												
+												<input type="text" class="form-control" id="lat" name="lat"  onchange="latlngChange()">
+												
+											</div>
+										</div>
+									
+									
+										<div class="col-md-2 col-sm-2">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="lng" name="lng"  onchange="latlngChange()">
+                                            </div>
+                                        </div>
+									</div>
+                                    <div id="map-simple" class="map-submit"></div>
+                                </section>
+                                <!--Gallery-->
+                                <section>
+                                    <h3>Gallery</h3>
+                                    <div><span class="form_message" id="upload_message"></span>
+                                        <input name="upload" id="upload" type="file" multiple>
+                                    </div>
+                                </section>
+                                <!--end Gallery-->
+                        </div>
+                        <!--/.col-md-9-->
+                        <!--Sidebar-->
+                        <div class="col-md-3">
+                            <aside id="sidebar">
+                                <div class="sidebar-box">
+                                    <div class="form-group">
+                                        <label for="package">Loại hình</label><span class="form_message" id="catalogue_message"></span>
+                                        <select name="catalogue" id="catalogue" class="framed">
+                                            <option value="">Chọn một loại hình</option>
+                                            <option value="1">Nhà hàng</option>
+											<option value="2">Quán ăn</option>
+											<option value="3">Bar - Club</option>
+											<option value="4">Ăn vặt - Vỉa hè</option>
+											<option value="5">Cafe - Thức uống - Bánh kẹo</option>
+											<option value="6">Giải trí</option>
+											<option value="7">Hotel - Resort</option>
+											<option value="8">Homestay</option>
+											<option value="9">Điểm du lịch</option>
+											<option value="10">Mua sắm</option>
+                                        </select>
+										
+                                    </div>
+									Mỗi điểm chỉ đăng ký được một loại hình kình doanh, nếu doanh nghiệp của bạn có nhiều hơn một loại hình xin hay liên hệ với chúng tôi.
+									<br>
+									<br>
+                                    <!-- /.form-group -->
+                                    <div class="form-group">
+                                        <label for="package">Bạn là gì của địa điểm này</label><span class="form_message" id="owner_message"></span>
+                                        <select name="owner" id="owner" class="framed">
+                                            <option value="1">Khách vãng lai</option>
+											<option value="2">Chủ địa điểm này</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </aside>
+                            <!-- /#sidebar-->
+                        </div>
+                        <!-- /.col-md-3-->
+                        <!--end Sidebar-->
+                    </div>
+					
+					<div class="col-md-8 col-sm-8">
+						<figure class="note">Khi đăng ký tức bạn đã đồng ý <a href="terms.html" class="link">Điều khoản dịch vụ</a> và <a href="policy.html" class="link">chính sách bảo mật</a> của chúng tôi</figure>
+						<center>
+						<div class="form-group">
+							<button type="submit" class="btn btn-default pull-right" id="submit"  ng-click="doSubmit()">Đăng ký</button>
+							
+						</div>
+						<br>
+						<br>&nbsp;
+						</center>
+						<!-- /.form-group -->
+					</div>								
+                </section>
+            </div>
+            <!-- end Page Content-->
+			</form>
+        </div>
+		
+        <!-- end Page Canvas-->
+        <!--Page Footer-->
+        <div ng-include="'inc_footer.html'"></div>
+        <!--end Page Footer-->
+    </div>
+    <!-- end Inner Wrapper -->
+</div>
+<!-- end Outer Wrapper-->
+
+<script type="text/javascript" src="assets/js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="assets/js/before.load.js"></script>
+<script type="text/javascript" src="//maps.google.com/maps/api/js?key=AIzaSyC6hGTAkD_Snhx1Aj0kATrn_Pd4t5QibhI&sensor=false"></script>
+<script type="text/javascript" src="assets/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/smoothscroll.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.hotkeys.js"></script>
+<script type="text/javascript" src="assets/js/dropzone.min.js"></script>
+<script type="text/javascript" src="assets/js/infobox.js"></script>
+<script type="text/javascript" src="assets/js/richmarker-compiled.js"></script>
+<script type="text/javascript" src="assets/js/markerclusterer.js"></script>
+<script type="text/javascript" src="assets/js/custom.js"></script>
+<script type="text/javascript" src="assets/js/maps.js"></script>
+<script src="assets/js/fileinput.js"></script>
+<script src="assets/js/jquery.alerts.js"></script>
+<script type="text/javascript" src="assets/js/page/submit.js"></script>
+<script>
+    
+    //autoComplete();
+</script>
+
+<!--[if lte IE 9]>
+<script type="text/javascript" src="js/ie-scripts.js"></script>
+<![endif]-->
+</body>
+</html>

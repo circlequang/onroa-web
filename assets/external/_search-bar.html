@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+</head>
+<body>
+
+<div class="content">
+    <div class="container">
+        <form class="main-search" role="form" method="post" action="index.html" onsubmit="return searchSubmit();">
+            <div class="input-row">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="keyword" placeholder="Nhập Keyword">
+                </div><!-- /.form-group -->
+                <div class="form-group">
+                    <input type="text" class="form-control" id="location" placeholder="Nhập Địa chỉ">
+                </div>
+                <!-- /.form-group -->
+                <div class="form-group">
+					<select name="category" id="category" multiple title="Chọn Danh mục" data-live-search="true">
+					</select>
+				</div>
+                <!-- /.form-group -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                </div>
+                <!-- /.form-group -->
+            </div>
+        </form>
+        <!-- /.main-search -->
+    </div>
+    <!-- /.container -->
+</div>
+
+
+<script>
+	//Gọi service load category vào select box
+	$.ajax({ 
+		async: false,
+		cache: false,                                
+		url: 'service.php?sv=page&f=loadCategory',
+		type: "GET",
+		success: function(jsonText, textStatus, jqXHR) {
+			result  = JSON.parse(jsonText);
+			categoryHtml = document.getElementById('category');
+			for (var i = 0; i< result.length; i++){
+				var opt = document.createElement('option');
+				opt.value = result[i].category_id;
+				opt.innerHTML = result[i].category_name.vi;
+				categoryHtml.appendChild(opt);
+			}
+		},
+		error: function() {
+			jAlert("Không truy xuất được hệ thống", "Thông báo");
+			return null;
+		}
+	});
+	
+	//Set default là 1 và 5
+	str = '1,5';
+	arr_category = str.split(',');
+
+	categoryHtml = document.getElementById( 'category' );
+	l = categoryHtml.options.length;
+	for ( var i = 0; i < l; i++ )
+	{
+		o = categoryHtml.options[i];
+		if ( arr_category.indexOf( o.value ) != -1 ) {
+			o.selected = true;
+		}
+	}
+	
+    $('select').selectpicker('render');
+	
+	function searchSubmit() {
+		keyword = $('#keyword').val();
+		address = $('#location').val();
+		arr_category = $('#category').val();
+		
+		if(keyword == null) keyword = "";
+		if(address == null) address = "";
+		if(arr_category == null) arr_category = "";
+		
+		if(arr_category == "" || arr_category == undefined) {
+			jAlert('Bạn phải chon một Danh Mục', 'Thông Báo');
+			return;
+		}
+		
+		url = "index.html?key=" + keyword + "&location=" + address + "&cata=" + arr_category;
+		
+		window.location = url;
+		return false;
+	}
+	
+</script>
+
+<!--[if lte IE 9]>
+<script type="text/javascript" src="assets/js/ie-scripts.js"></script>
+<![endif]-->
+</body>
+</html>

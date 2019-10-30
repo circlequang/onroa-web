@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+
+<html lang="en-US" ng-app = "mainApp" ng-controller="detailCtrl" >
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<meta name="description" content="{{data.title}}, {{data.description.vi}}, {{ngMeta.description}}">
+	<meta name="keywords" content="{{data.title}}, {{data.type_name.vi}}, {{data.q}}">
+	<meta name="title" content="Onroa - {{data.title}}, {{ngMeta.description}}" />
+
+	<meta property="og:title" content="Onroa - {{data.title}}, {{ngMeta.title}}"/>
+	<meta property="og:site_name" content="Onroa - {{data.title}}, {{ngMeta.title}}"/>
+
+	<meta property="og:url" content="http://www.onroa.com/?{{urlAddress()}}"/>
+
+	<meta property="og:description" content="{{data.title}}, {{data.description.vi}}"/>
+	<meta property="og:type" content="blog" />
+
+	<meta property="og:image" content="{{data.gallery[0]}}" />
+	
+    <link href="assets/fonts/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href='//fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/bootstrap-select.min.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/style.css" type="text/css">
+    <link rel="stylesheet" href="assets/css/user.style.css" type="text/css">
+	<link rel="stylesheet" href="assets/css/slider/slider.css" type="text/css">
+	<link rel="stylesheet" href="assets/plugin/sweetalert2/sweetalert2.min.css" type="text/css">
+	<link rel="stylesheet" href="assets/css/fileinput.css" type="text/css">
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+	<script src="assets/js/common.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-sanitize.min.js"></script>
+	<script src="assets/plugin/sweetalert2/sweetalert2.min.js"></script>
+	<script src="assets/js/fileinput.js"></script>
+	<script src="assets/js/controller.js"></script>
+	
+    <title>Onroa - {{data.title}}</title>
+</head>
+
+<body onunload="" class="page-subpage page-item-detail navigation-off-canvas" id="page-top">
+<!-- Outer Wrapper-->
+<div id="outer-wrapper">
+    <!-- Inner Wrapper -->
+    <div id="inner-wrapper">
+        <!-- Navigation-->
+        <div class="header">
+            <div class="wrapper">
+                <div class="brand">
+					<span onclick="backToIndex()">
+						<img src="assets/img/logo.png" alt="logo">
+					</span>
+					<span  onclick="backToIndex()">
+						<img src="assets/img/back.png" alt="logo">
+					</span>
+                </div>
+                <nav class="navigation-items">
+                    <div class="wrapper">
+                        <ul class="main-navigation navigation-top-header in-login"></ul>
+                        <ul class="user-area"  ng-if="uid == ''">
+							<li><a target="_blank" href="#" onclick="window.open('https://play.google.com/store/apps/details?id=onroa.mobile.onroaapp', '_blank').focus();">
+											<img src="assets/img/android-version.png" style="width: 100px">
+							</a></li>
+                            <li><a href="signin.html">Đăng nhập</a></li>
+                            <li><a href="register.html"><strong>Đăng ký</strong></a></li>
+							<li><a href="#" onclick="fblogin('detail')">
+											<img src="assets/img/fblogin.jpg" style="width: 50px">
+							</a></li>
+                        </ul>
+						<ul class="user-area"  ng-if="uid != ''">
+                            <li><a href="#" onclick="logout(); return false; ">Đăng xuất</a></li>
+                        </ul>
+                        
+                        <div class="toggle-navigation">
+                            <div class="icon">
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- end Navigation-->
+        <!-- Page Canvas-->
+        <div id="page-canvas">
+            <!--Sub Header-->
+            <section class="sub-header">
+                <div class="search-bar horizontal collapse" id="redefine-search-form"></div>
+                <!-- /.search-bar -->
+                <div class="breadcrumb-wrapper">
+                    <div class="container">
+                        <div class="redefine-search">
+                            <a href="#redefine-search-form" class="inner" data-toggle="collapse" aria-expanded="false" aria-controls="redefine-search-form">
+                                <span class="icon"></span>
+                                <span>Search</span>
+                            </a>
+                        </div>
+                        <ol class="breadcrumb">
+                            <li><a href="index.html"><i class="fa fa-home"></i></a></li>
+                            <li class="active">Detail</li>
+                        </ol>
+                        <!-- /.breadcrumb-->
+                    </div>
+                    <!-- /.container-->
+                </div>
+                <!-- /.breadcrumb-wrapper-->
+            </section>
+            <!--end Sub Header-->
+			
+			<!--Off Canvas Navigation-->
+            <nav class="off-canvas-navigation">
+                <header>Menu</header>
+                <div class="main-navigation navigation-off-canvas"></div>
+            </nav>
+            <!--end Off Canvas Navigation-->
+
+            <!--Page Content-->
+            <div id="page-content"  style="padding-top: 0px;">
+
+                <div id="map-detail"></div>
+                <section class="container">
+                    <div class="row">
+                        <!--Item Detail Content-->
+                        <div class="col-md-9">
+                            <section class="block" id="main-content">
+                                <header class="page-title">
+                                    <div class="title">
+                                        <h1>{{data.title}}</h1>
+                                        <figure>{{data.address}}</figure>
+                                    </div>
+                                    <div class="info">
+                                        <div class="type">
+                                            <i><img ng-repeat="type_icon in data.type_icon_list track by $index" src="{{type_icon}}" alt="{{data.category_name.vi[$index]}}"></i>
+                                            <span ng-repeat="category_name in data.category_name.vi  track by $index">{{category_name}}</span>
+                                        </div>
+                                    </div>
+                                </header>
+                                <div class="row">
+                                    <!--Detail Sidebar-->
+                                    <aside class="col-md-4 col-sm-4" id="detail-sidebar">
+                                        <!--Contact-->
+                                        <section>
+                                            <header><h3>Contact</h3></header>
+                                            <address>
+                                                <div>{{data.address}}</div>
+                                                <div>{{data.city}}</div>
+                                                <figure>
+                                                    <div class="info" ng-if="data.mobile_phone != ''">
+                                                        <i class="fa fa-mobile"></i>
+                                                        <span>{{data.mobile_phone}}</span>
+                                                    </div>
+                                                    <div class="info"  ng-if="data.home_phone != ''">
+                                                        <i class="fa fa-phone"></i>
+                                                        <span>{{data.home_phone}}</span>
+                                                    </div>
+													<div class="info" ng-if="data.website != ''">
+                                                        <i class="fa fa-globe"></i>
+                                                        <a href="#">{{data.website}}</a>
+                                                    </div>
+                                                    <div class="info">
+                                                        <b>Giá: </b>
+                                                        <span ng-bind-html="showPrice (data.price, data.price_from, data.price_to)">{{showPrice (data.price, data.price_from, data.price_to)}}</span>
+                                                    </div>
+                                                    <div class="info">
+                                                        <b>Khoản cách từ bạn: </b>
+                                                        <span id="DistanceBetweenPoints"> </span>
+                                                    </div>
+                                                </figure>
+												<!-- Button modal fullscreen -->
+												<button type="button" class="btn btn-direction" data-toggle="modal" data-target="#modal-fullscreen" ng-click = "showDirection()">
+												  Chỉ đường <img src="assets/img/direction.png">
+												</button>
+                                            </address>
+                                        </section>
+                                        <!--end Contact-->
+                                    </aside>
+                                    <!--end Detail Sidebar-->
+                                    <!--Content-->
+                                    <div class="col-md-8 col-sm-8">
+                                        <section>
+                                            <article class="item-gallery">
+												<div id="jssor_1" style="position: relative; margin: 0 auto; top: 0px; left: 0px; width: 600px; height: 300px; overflow: hidden; visibility: hidden;">
+												<!-- Loading Screen -->
+												<div data-u="loading" style="position: absolute; top: 0px; left: 0px;">
+													<div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block; top: 0px; left: 0px; width: 100%; height: 100%;"></div>
+													<div style="position:absolute;display:block;background:url('img/loading.gif') no-repeat center center;top:0px;left:0px;width:100%;height:100%;"></div>
+												</div>
+												<div data-u="slides" style="cursor: default; position: relative; top: 0px; left: 0px; width: 600px; height: 300px; overflow: hidden;">
+													<div data-p="112.50" style="display: none;" ng-repeat="img in data.gallery">
+														<img data-u="image" src="{{img}}" />
+														<img data-u="thumb" src="{{img}}" />
+													</div>
+												</div>
+												<!-- Thumbnail Navigator -->
+												<div data-u="thumbnavigator" class="jssort03" style="position:absolute;left:0px;bottom:0px;width:600px;height:60px;" data-autocenter="1">
+													<div style="position: absolute; top: 0; left: 0; width: 100%; height:100%; background-color: #000; filter:alpha(opacity=30.0); opacity:0.3;"></div>
+													<!-- Thumbnail Item Skin Begin -->
+													<div data-u="slides" style="cursor: default;">
+														<div data-u="prototype" class="p">
+															<div class="w">
+																<div data-u="thumbnailtemplate" class="t"></div>
+															</div>
+															<div class="c"></div>
+														</div>
+													</div>
+													<!-- Thumbnail Item Skin End -->
+												</div>
+												<!-- Arrow Navigator -->
+												<span data-u="arrowleft" class="jssora02l" style="top:0px;left:8px;width:55px;height:55px;" data-autocenter="2"></span>
+												<span data-u="arrowright" class="jssora02r" style="top:0px;right:8px;width:55px;height:55px;" data-autocenter="2"></span>
+											</div>
+                                            </article>
+                                            <!-- /.item-gallery -->
+                                            <article class="block" ng-if="data.description.vi != ''">
+                                                <p>
+                                                    {{data.description.vi}}
+                                                </p>
+                                            </article>
+											<br>
+											<div class="fb-like" data-href="{{currentURL}}" data-layout="standard" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                                            
+                                        </section>
+										
+										<!--Review Form-->
+                                        <section id="write-review" ng-if="uid != ''">
+                                            <form id="write-review-form" class="background-color-white">
+                                                <div class="row">
+                                                    <div class="col-md-8">
+                                                        <div class="form_message" id="review_mesage"></div>
+                                                        <!-- /.form-group -->
+                                                        <div class="form-group">
+                                                            <label for="form-review-message"></label>
+                                                            <textarea class="form-control" id="form-review-message" name="form-review-message"  rows="3" cols="60"></textarea>
+                                                        </div>
+                                                        <!-- /.form-group -->
+                                                        <br>
+														<input name="upload" id="upload" type="file" multiple>
+                                                        <!-- /.form-group -->
+                                                        <div class="form-group">
+															<input  id="_id" name="_id" type="hidden" value={{data._id}}>
+															<br>
+                                                            <button type="submit" class="btn btn-checkin" ng-click = "doCheckin()">Check-in</button>
+                                                            <button type="submit" class="btn btn-default" ng-click = "doCmt()">Nhận xét</button>
+                                                        </div>
+                                                        <!-- /.form-group -->
+                                                    </div>
+                                                    
+                                                </div>
+                                            </form>
+                                            <!-- /.main-search -->
+                                        </section>
+                                        <!--end Review Form-->
+										
+										<section class="container" ng-if="uid == ''">
+											<div class="block">
+												<div class="row">
+													<div class="col-md-8">
+															<!-- /.form-group -->
+															<center>
+															<div class="form-group" onclick="fblogin('detail');" style="cursor: pointer;">
+																	<img src="assets/img/fbconnect.png" style="width: 150pt">
+															</div>
+															</center>
+															<!-- /.form-group -->
+													</div>
+												</div>
+											</div>
+										</section>
+										
+                                        <!--Reviews-->
+                                        <section class="block"  id="reviews">
+                                            <section class="reviews">
+                                                <article class="review" ng-repeat="item in data.review  | orderBy:-data.review.review_id" id="review_{{item.review_id}}">
+                                                    <figure class="author">
+                                                        <a href="profile.html?{{item.burl}}"><img src="{{item.avatar}}" alt=""><a>
+                                                        <div class="date" ng-bind-html="showAsDate (item.submit_date)">{{showAsDate (item.submit_date)}}</div>
+                                                    </figure>
+                                                    <!-- /.author-->
+                                                    <div class="wrapper">
+                                                        <h5><a href="profile.html?{{item.burl}}">{{item.display_name}}</a> <a href="bmap.html?{{item.burl}}"><img src="assets/img/bmap-icon.jpg" alt="{{item.display_name}} map"></a></h5>
+                                                        <p id="re_{{item.review_id}}">
+                                                           <div id="cmt_{{item.review_id}}" ng-bind-html="trustedHtml (item.cmt)"></div>
+														   <div id="cmted_{{item.review_id}}"  style="display: none;">
+																<textarea class="form-control" id="txt_{{item.review_id}}" name="txt_{{item.review_id}}"  rows="3" cols="30">{{item.cmt}}</textarea>
+															</div>
+														   
+														   <input type="hidden" id="rid_{{item.review_id}}" name="rid_{{item.review_id}}" value="{{item.review_id}}">
+                                                        </p>
+                                                        <!-- /.user-rating -->
+														<div class="individual-rating" id="change-action-{{item.review_id}}" ng-if="item.uid == uid">
+                                                            <span></span>
+                                                            <div align="right" id="dbtn_{{item.review_id}}">
+																<a ng-click="changeToEdit(item.review_id)" href="#"><img src="assets/img/icon/edit.png" alt="Edit" height="16" width="16"></a>&nbsp;&nbsp;&nbsp;&nbsp; 
+																	<a ng-click="deleteCmt(item.review_id)" href="#"><img src="assets/img/icon/delete.png" alt="Delete" height="16" width="16"></a>
+															</div>
+                                                        </div>
+														<div class="individual-rating" id="submit-action-{{item.review_id}}" ng-if="item.uid == uid" style="display: none;">
+                                                            <span></span>
+                                                            <div align="right" id="dbtn_{{item.review_id}}">
+																<a ng-click="submitForm(item.review_id)" href="#"><img src="assets/img/icon/save.png" alt="Save" height="16" width="16"></a>&nbsp;&nbsp;&nbsp;&nbsp; 
+																	<a ng-click="cancelSubmit(item.review_id)" href="#"><img src="assets/img/icon/cancel.png" alt="Cancel" height="16" width="16"></a>
+															</div>
+                                                        </div>
+														
+													<span  ng-repeat="imgReview in item.image track by $index" >
+                                                        <img src="{{imgReview}}" alt=""> &nbsp;
+                                                        <BR>       
+                                                    </span>
+													
+                                                    </div>
+                                                    <!-- /.wrapper-->
+                                                </article>
+                                                <!-- /.review -->
+                                            </section>
+                                            <!-- /.reviews-->
+                                        </section>
+                                        <!-- /#reviews -->
+                                        <!--end Reviews-->
+										
+										
+                                    </div>
+                                    <!-- /.col-md-8-->
+                                </div>
+                                <!-- /.row -->
+                            </section>
+                            <!-- /#main-content-->
+                        </div>
+                        <!-- /.col-md-8-->
+                        <!--Sidebar-->
+                        <div class="col-md-3">
+                            <aside id="sidebar">
+                                <section>
+                                    <header><h2>Gần đây có</h2></header>
+									<div ng-repeat="nearPoint in nearPoints">
+										<a href="detail.html?{{nearPoint.url}}" class="item-horizontal small">
+											<h3>{{nearPoint.title}}</h3>
+											<figure>{{nearPoint.address}}</figure>
+											<div class="wrapper">
+												<div class="image"><img src="{{nearPoint.gallery[0]}}" alt=""></div>
+												<div class="info">
+													<div class="type">
+														<i><img src="{{nearPoint.type_icon}}" alt=""></i>
+														<span>{{nearPoint.category_name.vi[0]}}</span>
+													</div>
+												</div>
+											</div>
+										</a>
+										<!--/.item-horizontal small-->
+									</div>
+                                </section>
+                            </aside>
+                            <!-- /#sidebar-->
+                        </div>
+                        <!-- /.col-md-3-->
+                        <!--end Sidebar-->
+                    </div><!-- /.row-->
+                </section>
+                <!-- /.container-->
+            </div>
+            <!-- end Page Content-->
+        </div>
+        <!-- end Page Canvas-->
+        <!--Page Footer-->
+        <div ng-include="'inc_footer.html'"></div>
+        <!--end Page Footer-->
+    </div>
+    <!-- end Inner Wrapper -->
+</div>
+<!-- end Outer Wrapper-->
+
+<!-- Modal fullscreen -->
+<div class="modal modal-fullscreen fade" id="modal-fullscreen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" style="left:0px">
+			<span aria-hidden="true"><img src="assets/img/back.png" alt="logo"></span>
+			<span class="sr-only"><img src="assets/img/back.png" alt="logo"></span>
+		</button>
+        
+      </div>
+      <div class="modal-body">
+        <iframe id="frmDirection" src="about:blank" style="position:fixed; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%; border:none; margin:0; padding:0; ">
+			Trình duyệt của bạn không hỗ trợ tính năng này
+		</iframe>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="loading-overlay"></div>
+
+<script type="text/javascript" src="assets/js/before.load.js"></script>
+<script type="text/javascript" src="//maps.google.com/maps/api/js?key=AIzaSyC6hGTAkD_Snhx1Aj0kATrn_Pd4t5QibhI&sensor=false"></script>
+<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/js/richmarker-compiled.js"></script>
+<script type="text/javascript" src="assets/js/smoothscroll.js"></script>
+<script type="text/javascript" src="assets/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="assets/js/jquery.hotkeys.js"></script>
+<script type="text/javascript" src="assets/js/custom.js"></script>
+<script type="text/javascript" src="assets/js/maps.js"></script>
+<script type="text/javascript" src="assets/js/slider/jssor.slider-21.1.6.min.js"></script>
+<script type="text/javascript" src="assets/js/slider/run_jssor.slider.js"></script>
+<script type="text/javascript" src="assets/js/page/detail.js"></script>
+
+<!--[if lte IE 9]>
+<script type="text/javascript" src="js/ie-scripts.js"></script>
+<![endif]-->
+</body>
+</html>
