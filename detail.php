@@ -1,5 +1,5 @@
 <?php
-	
+require_once('service/fnc/config.php');	
 //Trường hợp user này không phải robot => redirect đến trang detail.html
 
 $user_agent = strtolower($_SERVER['HTTP_USER_AGENT']);
@@ -12,9 +12,7 @@ if(!preg_match($bot, $user_agent)){
 	return;
 } 
 
-$m = new MongoClient("mongodb://rwthiendi:t#rn^5tu43yf@localhost:27017/onroa");
-//$m = new MongoClient("mongodb://localhost:27017/");
-$db = $m->selectDB('onroa');
+
 $points = new MongoCollection($db, 'points');
 $url = $_GET['url'];
 $query = array('url' => $url);
