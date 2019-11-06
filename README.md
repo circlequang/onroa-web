@@ -4,6 +4,8 @@ Khám phá các địa điểm quanh bạn chỉ bằng một cái vuố
 
 Bạn vừa đặt chân đến một địa phương không mấy quen thuộc và cần tìm các điểm du lịch quan đây, bạn chán quán cơm này và muốn tìm một quán khác gần đó, bạn cần biết các quán cafe ở một nơi nào đó để họp mặt bạn bè . . . Onroa là câu trả lời tốt nhất cho các vấn đề trên.
 
+URL tham khảo: https://apkpure.com/vn/onroa-ba%CC%89n-%C4%91%C3%B4%CC%80-%C4%91i%CC%A3a-%C4%91i%C3%AA%CC%89m/onroa.mobile.onroaapp
+
 Là một người thích khám phá, du lịch, la cà hàng quán thì Onroa cũng cấp tính năng Check-in và lưu lại các thông tin này vào Bản Đồ Cá Nhân của bạn. Bạn Có thể khoe thành tích của mình với người khác dựa trên các bản đồ cá nhân này.
 
 2. Các chức năng chính:
